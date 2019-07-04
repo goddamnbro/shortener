@@ -11,7 +11,7 @@ import (
 func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	var urls strings.Builder
 
-	for hash, url := range *s.Storage {
+	for hash, url := range s.Storage.Range() {
 		urls.WriteString(fmt.Sprintf("http://localhost:%d/resolve/%s -> %s \n", s.Port, hash, url))
 	}
 

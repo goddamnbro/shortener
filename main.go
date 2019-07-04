@@ -9,7 +9,7 @@ import (
 
 func main() {
 	server := server.Server{
-		Storage: &shortener.Storage{},
+		Storage: shortener.NewStorage(),
 		Router:  mux.NewRouter(),
 		Port:    5300,
 	}
