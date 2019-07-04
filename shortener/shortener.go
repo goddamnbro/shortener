@@ -9,17 +9,12 @@ import (
 
 type Storage map[string]string
 
-//type Shortener interface {
-//	Shorten(string) string
-//	Resolve(string) string
-//}
-
-func (s Storage) Shorten(url string) string {
+func (s Storage) Shorten(url string) (string, error) {
 	h := fnv.New32()
 	_, err := h.Write([]byte(url))
 	if err != nil {
 		log.Println("error:", err)
-		return ""
+		return "", err
 	}
 
 	hash := fmt.Sprintf("%d", h.Sum32())
@@ -33,9 +28,10 @@ func (s Storage) Shorten(url string) string {
 	}
 
 	s[hash] = url
-	return hash
+	return hash, nil
 }
 
-func (s Storage) Resolve(hash string) string {
-	return s[hash]
+func (s Storage) Resolve(hash string) (string, bool) {
+	value, ok := s[hash]
+	return value, ok
 }
